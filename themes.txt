@@ -11,7 +11,7 @@ Lock
 Pendant
 Thermometer
 Sunscreen
-
+#
 Animals
 Ostrich
 Coyote
@@ -25,7 +25,7 @@ Donkey
 Armadillo
 Anteater
 Sloth
-
+#
 Gems
 Emerald
 Topaz
@@ -39,7 +39,7 @@ Quartz
 Onyx
 Jade
 Fluorite
-
+#
 No Repeating Letters
 Keyboard
 Champion
@@ -53,7 +53,7 @@ Ravine
 Ambidextrous
 Unproblematic
 Phantom
-
+#
 Rare Words
 Quartern
 Escapade
@@ -67,4 +67,4 @@ Limerence
 Kaleidoscope
 Sigil
 Oxen
-
+#
