@@ -14,20 +14,35 @@ public class CPTNathan{
 		BufferedImage gru = con.loadImage("gru.jpg");
 		BufferedImage troll = con.loadImage("troll.jpg");
 		
-		int intx = 1500;
+		int intx;
 		
 		// Guess the Word
 		
 		String strmenu;
+		
+		
+		String strthemepick;
+		String strthemeread;
+		int intlinenum = 0;
+		
 		boolean boolquit = false;
 		boolean boolthemeselect = true;
 		boolean boolleaderboard = true;
 		boolean booladdtheme = true;
 		String strname;
 		
+		// Taking themes
+		
+		// intwords = # of words in the theme, intrand = random number from 1-100
+		int intwords;
+		int intrand;
+		String strtheme[][];
+		
+		
+		
 		while(boolquit == false){
 			
-			// Menu ########################
+			// Menu 
 			
 			// Fill Background
 			con.setDrawColor(Color.BLACK);
@@ -57,9 +72,42 @@ public class CPTNathan{
 				
 				// If P is selected, it will cover the menu
 				
+				// System.out.println("ITTTTTTT WOOOOORRRRKKKKKKKSSSSSSSS");
+				
 				while(boolthemeselect == true){
 					con.setDrawColor(Color.BLACK);
 					con.fillRect(0,0,1280,720);
+					
+					// Opens the themes list
+					TextInputFile themes = new TextInputFile("themes.txt");
+					
+					// strtheme = new String[intwords][intrand];
+					
+					con.setDrawColor(Color.WHITE);
+					con.drawString("Type the theme you want to play.", 445, 100);
+					con.drawString("(Type exactly how it's displayed)", 437, 125);
+					con.drawString("Objects", 597, 150);
+					con.drawString("Animals", 597, 170);
+					con.drawString("Gems", 615, 190);
+					con.drawString("No Repeating Letters", 516, 210);
+					con.drawString("Rare Words", 578, 230);
+					
+					strthemepick = con.readLine();
+					
+					while(themes.eof() == false){
+						
+						// Reads 1 line from themes.txt
+						strthemeread = themes.readLine();
+						intlinenum = intlinenum + 1;
+						
+						// Checks if the line it read matches what the theme the user added is
+						if(strthemepick.equalsIgnoreCase(strthemeread)){
+							// System.out.println("ITTTTTTT WOOOOORRRRKKKKKKKSSSSSSSS");
+							// System.out.println(intlinenum);
+							
+							// When the theme is found, it will keep reading until the next #
+						}
+					}
 					
 					con.repaint();
 					con.sleep(30);
@@ -70,6 +118,8 @@ public class CPTNathan{
 			}else if(strmenu.equalsIgnoreCase("V")){
 				
 				// If V is selected, it will cover the menu
+				
+				// System.out.println("ITTTTTTT WOOOOORRRRKKKKKKKSSSSSSSS");
 				
 				while(boolleaderboard == true){
 					con.setDrawColor(Color.BLACK);
@@ -85,6 +135,8 @@ public class CPTNathan{
 				
 				// If A is selected, it will cover the menu
 				
+				// System.out.println("ITTTTTTT WOOOOORRRRKKKKKKKSSSSSSSS");
+				
 				while(booladdtheme == true){
 					con.setDrawColor(Color.BLACK);
 					con.fillRect(0,0,1280,720);
@@ -98,6 +150,8 @@ public class CPTNathan{
 			}else if(strmenu.equalsIgnoreCase("S")){
 				
 				// If S is selected, it will put image of gru on screen with joke
+				
+				// System.out.println("ITTTTTTT WOOOOORRRRKKKKKKKSSSSSSSS");
 				
 				intx = 1500;
 				
@@ -117,6 +171,7 @@ public class CPTNathan{
 					con.drawString("banana", 1000, 100);
 					con.drawString("banana", 1004, 109);
 					con.drawString("banana", 1013, 111);
+					con.drawString("y ciken cras road, 2 get 2 te otter sid", 840, 140);
 					
 					con.repaint();
 					con.sleep(30);
@@ -125,6 +180,8 @@ public class CPTNathan{
 			}else if(strmenu.equalsIgnoreCase("Q")){
 				
 				// If Q is selected, it will close the console
+				
+				// System.out.println("bro why.");
 				
 				System.exit(0);
 				
