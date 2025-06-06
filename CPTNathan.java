@@ -3,6 +3,17 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.Font;
 
+// ----------------------------------------
+// CPT Assignment - Guess The Word
+// ICS3U1
+// Nathan Wong
+// 23 May 2025
+//
+// This program allows the user to play a game of guess the word
+// The user can play the game, view leaderboards, add themes, or quit
+// 
+// ----------------------------------------
+
 public class CPTNathan{
 	public static void main(String[] args){
 		Console con = new Console("Guess The Word", 1280, 720);
@@ -16,20 +27,26 @@ public class CPTNathan{
 		
 		int intx;
 		
+		
 		// Guess the Word
 		
 		String strmenu;
 		
+		int intnum = 1;
+		int intnum2 = 1;
 		
 		String strthemepick;
 		String strthemeread;
 		int intlinenum = 0;
+		int inttagnum = 0;
 		
 		boolean boolquit = false;
 		boolean boolthemeselect = true;
 		boolean boolleaderboard = true;
 		boolean booladdtheme = true;
 		String strname;
+		
+		int intnumwords;
 		
 		// Taking themes
 		
@@ -98,16 +115,46 @@ public class CPTNathan{
 						
 						// Reads 1 line from themes.txt
 						strthemeread = themes.readLine();
-						intlinenum = intlinenum + 1;
+						intlinenum = intlinenum + intnum;
+						inttagnum = inttagnum + intnum2;
+						
+						// When theme is found it will stop the count for line the theme is on
+						if(strthemepick.equalsIgnoreCase(strthemeread)){
+							intnum = 0;
+						}
+						
+						// When tag is found it will stop the count for line the tag is on
+						if(strthemepick == "asdhjewkudfsdfgweujwewhewifwe"){
+							intnum2 = 0;
+						}
 						
 						// Checks if the line it read matches what the theme the user added is
 						if(strthemepick.equalsIgnoreCase(strthemeread)){
 							// System.out.println("ITTTTTTT WOOOOORRRRKKKKKKKSSSSSSSS");
 							// System.out.println(intlinenum);
 							
-							// When the theme is found, it will keep reading until the next #
+							// When the theme is found, it will change to a #
+							
+							strthemepick = "#";
+							
+							if(strthemepick.equalsIgnoreCase(strthemeread)){
+								// System.out.println(inttagnum);
+								
+								// theme pick changed to random letters so it wont activate again
+								strthemepick = "asdhjewkudfsdfgweujwewhewifwe";
+							}
 						}
+						
+						// System.out.println(inttagnum);
+						
 					}
+					
+					// System.out.println(inttagnum);
+					
+					// creates the array after picking a theme
+					strtheme = new String[(inttagnum - intlinenum) - 2][1];
+					
+					
 					
 					con.repaint();
 					con.sleep(30);
