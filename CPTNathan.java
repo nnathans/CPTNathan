@@ -25,28 +25,41 @@ public class CPTNathan{
 		BufferedImage gru = con.loadImage("gru.jpg");
 		BufferedImage troll = con.loadImage("troll.jpg");
 		
+		// troll movement
 		int intx;
 		
-		
-		// Guess the Word
+		// Guess the Word ---------------------------------------
 		
 		String strmenu;
 		
+		// Line reading
 		int intnum = 1;
 		int intnum2 = 1;
 		
+		// Themes
 		String strthemepick;
+		String strthemehold;
 		String strthemeread;
 		int intlinenum = 0;
 		int inttagnum = 0;
 		
+		// UI
 		boolean boolquit = false;
 		boolean boolthemeselect = true;
 		boolean boolleaderboard = true;
 		boolean booladdtheme = true;
 		String strname;
 		
-		int intnumwords;
+		// for loops
+		int intcount;
+		String strword;
+		
+		// Sorting
+		int intcount2;
+		
+		String strwordtemp;
+		String strnumtemp;
+		
 		
 		// Taking themes
 		
@@ -54,6 +67,7 @@ public class CPTNathan{
 		int intwords;
 		int intrand;
 		String strtheme[][];
+		
 		
 		
 		
@@ -109,7 +123,14 @@ public class CPTNathan{
 					con.drawString("No Repeating Letters", 516, 210);
 					con.drawString("Rare Words", 578, 230);
 					
+					// reads the theme
 					strthemepick = con.readLine();
+					
+					// puts the theme into a temp variable for later
+					strthemehold = strthemepick;
+					
+					
+					// This creates the array for the words
 					
 					while(themes.eof() == false){
 						
@@ -152,7 +173,71 @@ public class CPTNathan{
 					// System.out.println(inttagnum);
 					
 					// creates the array after picking a theme
-					strtheme = new String[(inttagnum - intlinenum) - 2][1];
+					strtheme = new String[(inttagnum - intlinenum) - 2][2];
+					
+					// closes and opens themes.txt as a new name to reset .eof();
+					themes.close();
+					
+					TextInputFile theme = new TextInputFile("themes.txt");
+					
+					
+					
+					// This puts the words into the array
+					
+					while(theme.eof() == false){
+						
+						strthemeread = theme.readLine();
+						
+						if(strthemehold.equalsIgnoreCase(strthemeread)){
+							for(intcount = 0; intcount <= (inttagnum - intlinenum) - 3; intcount++){
+								if(!(strthemeread.equalsIgnoreCase("#"))){
+									
+									strthemeread = theme.readLine();
+								
+									System.out.println(strthemeread);
+									System.out.println(intcount);
+								
+									intrand = (int) (Math.random()*100);
+									
+									System.out.println(intrand);
+								
+									strtheme[intcount][0] = strthemeread;
+									strtheme[intcount][1] = intrand + "";
+								}
+							}
+						}		
+					}
+					
+					// This sorts the array
+					
+					// System.out.println("Before Sorting");
+					// for(intcount = 0; intcount < (inttagnum - intlinenum) - 3; intcount++){
+						// System.out.println(strtheme[intcount][0] + " - " + strtheme[intcount][1]);
+					// }
+					
+					for(intcount2 = 0; intcount2 < ((inttagnum - intlinenum) - 3) - 1; intcount2++){
+						for(intcount = 0; intcount < ((inttagnum - intlinenum) - 3) - 1; intcount++){
+							if(Integer.parseInt(strtheme[intcount][1]) > Integer.parseInt(strtheme[intcount+1][1])){
+							
+								// word swap
+								strwordtemp = strtheme[intcount][0];
+								strtheme[intcount][0] = strtheme[intcount+1][0];
+								strtheme[intcount+1][0] = strwordtemp;
+							
+								// number swap
+								strnumtemp = strtheme[intcount][1];
+								strtheme[intcount][1] = strtheme[intcount+1][1];
+								strtheme[intcount+1][1] = strnumtemp;
+							
+							
+							}
+						}
+					}
+					
+					// System.out.println("After Sorting");
+					// for(intcount = 0; intcount < (inttagnum - intlinenum) - 3; intcount++){
+						// System.out.println(strtheme[intcount][0] + " - " + strtheme[intcount][1]);
+					// }
 					
 					
 					
