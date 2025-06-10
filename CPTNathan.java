@@ -50,6 +50,9 @@ public class CPTNathan{
 		boolean booladdtheme = true;
 		String strname;
 		
+		boolean boolgame = true;
+		boolean boolround = true;
+		
 		// for loops
 		int intcount;
 		String strword;
@@ -60,6 +63,24 @@ public class CPTNathan{
 		String strwordtemp;
 		String strnumtemp;
 		
+		
+		// game
+		String strcurword;
+		int intgameword;
+		
+		String strgameword[];
+		String strtemp[];
+		
+		int intsecret = 0;
+		int intlives;
+		
+		int intletters;
+		
+		String strletterguess;
+		String strlettertemp;
+		
+		String strwordcheck;
+		String strafter;
 		
 		// Taking themes
 		
@@ -239,11 +260,84 @@ public class CPTNathan{
 						// System.out.println(strtheme[intcount][0] + " - " + strtheme[intcount][1]);
 					// }
 					
+					theme.close();
+					
+					// name
+					
+					con.setDrawColor(Color.BLACK);
+					con.fillRect(0,0,1280,720);
+					
+					con.setDrawColor(Color.WHITE);
+					con.drawString("What's your name?", 535, 100);
+					strname = con.readLine();
+					
+					if(strname.equalsIgnoreCase("statitan")){
+						intsecret = 3;
+					}
+					
+					con.setDrawColor(Color.BLACK);
+					con.fillRect(0,0,1280,720);
+					
+					while(boolgame == true){
+						boolround = true;
+					
+						// The game
+						for(intgameword = 0; intgameword < ((inttagnum - intlinenum) - 3) ; intgameword++){
+							if(boolround == true){
+						
+								strcurword = strtheme[intgameword][0];
+								// System.out.println(strcurword);
+								
+								strgameword = new String[strcurword.length()];
+								strtemp = new String[strcurword.length()];
+								intlives = strcurword.length() + intsecret;
+								
+								for(intletters = 0; intletters < strcurword.length(); intletters++){
+									strlettertemp = strcurword.substring(intletters, intletters + 1);
+									strgameword[intletters] = strlettertemp;
+									con.println(strgameword[intletters]);
+								}
+								
+								for(intletters = 0; intletters < strcurword.length(); intletters++){
+										strtemp[intletters] = "_";
+										// System.out.print(strtemp[intletters]);
+										strwordcheck = "" + strtemp[intletters];
+										
+								}
+								
+								while(boolround == true){
+									for(intletters = 0; intletters < strcurword.length(); intletters++){
+										con.print(strtemp[intletters]);
+										
+									}
+								
+									con.println("");
+									con.println("You have " + intlives + " points");
+									con.println("Make a guess");
+									strletterguess = con.readLine();
+									
+									if(strletterguess.length() >=2){
+										con.println("You can only type one letter.");
+									}else{
+										for(intletters = 0; intletters < strcurword.length(); intletters++){
+											if(strletterguess.equalsIgnoreCase(strgameword[intletters])){
+												strtemp[intletters] = strletterguess;
+											}
+										}
+										
+										
+										
+									}
+								}
+							}	
+						}
+					}
 					
 					
 					con.repaint();
 					con.sleep(30);
 				}
+				
 				
 				
 			
