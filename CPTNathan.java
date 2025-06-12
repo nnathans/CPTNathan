@@ -4,10 +4,10 @@ import java.awt.image.BufferedImage;
 import java.awt.Font;
 
 // ----------------------------------------
-// CPT Assignment - Guess The Word
-// ICS3U1
 // Nathan Wong
-// 23 May 2025
+// ICS3U1c
+// Last Edited: 12 June 2025
+// V0.0.1
 //
 // This program allows the user to play a game of guess the word
 // The user can play the game, view leaderboards, add themes, or quit
@@ -79,17 +79,32 @@ public class CPTNathan{
 		String strletterguess;
 		String strlettertemp;
 		
-		String strwordcheck;
-		String strafter;
+		String strwordcheck = "";
+		String strprev = "";
+		
+		String strans = "y";
 		
 		// Taking themes
+		String strthemename;
+		int intwordamount;
+		int intstart;
+		String strwordread;
 		
 		// intwords = # of words in the theme, intrand = random number from 1-100
 		int intwords;
 		int intrand;
 		String strtheme[][];
 		
-		
+		// leaderboard
+		int intscore = 0;
+		String strscore[][];
+		String strlead[][];
+		int intcount3;
+		String strplayer;
+		int intscorenum;
+		int inttotalplayers = 0;
+		String strplaytemp;
+		String strscoretemp;
 		
 		
 		while(boolquit == false){
@@ -126,6 +141,7 @@ public class CPTNathan{
 				
 				// System.out.println("ITTTTTTT WOOOOORRRRKKKKKKKSSSSSSSS");
 				
+				boolthemeselect = true;
 				while(boolthemeselect == true){
 					con.setDrawColor(Color.BLACK);
 					con.fillRect(0,0,1280,720);
@@ -146,6 +162,8 @@ public class CPTNathan{
 					
 					// reads the theme
 					strthemepick = con.readLine();
+					
+					
 					
 					// puts the theme into a temp variable for later
 					strthemehold = strthemepick;
@@ -278,12 +296,20 @@ public class CPTNathan{
 					con.setDrawColor(Color.BLACK);
 					con.fillRect(0,0,1280,720);
 					
+					boolgame = true;
 					while(boolgame == true){
-						boolround = true;
+						strans = "y";
 					
 						// The game
 						for(intgameword = 0; intgameword < ((inttagnum - intlinenum) - 3) ; intgameword++){
+							
+							if(!(strans.equalsIgnoreCase("n"))){
+								boolround = true;
+							}
+							
 							if(boolround == true){
+								
+								strwordcheck = "";
 						
 								strcurword = strtheme[intgameword][0];
 								// System.out.println(strcurword);
@@ -295,13 +321,13 @@ public class CPTNathan{
 								for(intletters = 0; intletters < strcurword.length(); intletters++){
 									strlettertemp = strcurword.substring(intletters, intletters + 1);
 									strgameword[intletters] = strlettertemp;
-									con.println(strgameword[intletters]);
+									// con.println(strgameword[intletters]);
 								}
 								
 								for(intletters = 0; intletters < strcurword.length(); intletters++){
 										strtemp[intletters] = "_";
 										// System.out.print(strtemp[intletters]);
-										strwordcheck = "" + strtemp[intletters];
+										strwordcheck = strwordcheck + strtemp[intletters];
 										
 								}
 								
@@ -325,7 +351,51 @@ public class CPTNathan{
 											}
 										}
 										
+										strprev = strwordcheck;
 										
+										strwordcheck = "";
+										
+										for(intletters = 0; intletters < strcurword.length(); intletters++){
+											strwordcheck = strwordcheck + strtemp[intletters];
+										}
+										
+										if(strwordcheck.equalsIgnoreCase(strprev)){
+											intlives = intlives - 1;
+										}
+										
+										if(intlives == 0){
+											con.println("You lose.");
+											con.println("Try again? y or n");
+											strans = con.readLine();
+											if(!(strans.equalsIgnoreCase("y") || strans.equalsIgnoreCase("n"))){
+												con.println("Not an option.");
+											}else if(strans.equalsIgnoreCase("y")){
+												boolround = false;
+												intscore = intscore + intlives;
+											}else if(strans.equalsIgnoreCase("n")){
+												boolround = false;
+												boolgame = false;
+												boolthemeselect = false;
+												intscore = intscore + intlives;
+											}
+										}
+										
+										if(strwordcheck.equalsIgnoreCase(strcurword)){
+											con.println("You Win!");
+											con.println("Try again? y or n");
+											strans = con.readLine();
+											if(!(strans.equalsIgnoreCase("y") || strans.equalsIgnoreCase("n"))){
+												con.println("Not an option.");
+											}else if(strans.equalsIgnoreCase("y")){
+												boolround = false;
+												intscore = intscore + intlives;
+											}else if(strans.equalsIgnoreCase("n")){
+												boolround = false;
+												boolgame = false;
+												boolthemeselect = false;
+												intscore = intscore + intlives;
+											}
+										}
 										
 									}
 								}
@@ -333,6 +403,20 @@ public class CPTNathan{
 						}
 					}
 					
+					
+
+					// 1st bracket is for the player, 2nd bracket is for the score
+					strscore = new String[1][2];
+					
+					TextOutputFile leaderboard = new TextOutputFile("leaderboard.txt",true);
+
+					strscore[0][0] = strname;
+					strscore[0][1] = intscore + "";
+
+					leaderboard.println(strscore[0][0]);
+					leaderboard.println(strscore[0][1]);
+					
+					leaderboard.close();
 					
 					con.repaint();
 					con.sleep(30);
@@ -351,6 +435,57 @@ public class CPTNathan{
 					con.setDrawColor(Color.BLACK);
 					con.fillRect(0,0,1280,720);
 					
+					// first time to count total players
+					TextInputFile leaderboard = new TextInputFile("leaderboard.txt");
+					
+					while(leaderboard.eof() == false){
+						strplayer = leaderboard.readLine();
+						intscorenum = leaderboard.readInt(); 
+						inttotalplayers = inttotalplayers + 1;
+					}
+					
+					leaderboard.close();
+					
+					// second time to put players into array
+					TextInputFile leader = new TextInputFile("leaderboard.txt");
+					
+					strlead = new String[inttotalplayers][2];
+					
+					while(leaderboard.eof() == false){
+						for(intcount = 0; intcount < inttotalplayers; intcount++){
+							strplayer = leaderboard.readLine();
+							intscorenum = leaderboard.readInt(); 
+							strlead[intcount][0] = strplayer;
+							strlead[intcount][1] = "" + intscorenum;
+						}
+					}
+					
+					for(intcount3 = 0; intcount3 < inttotalplayers; intcount3++){
+						for(intcount = 0; intcount < inttotalplayers; intcount++){
+							if(Integer.parseInt(strlead[intcount+1][1]) > Integer.parseInt(strlead[intcount][1])){
+								
+								// score swap
+								strplaytemp = strlead[intcount][0];
+								strlead[intcount][0] = strlead[intcount+1][0];
+								strlead[intcount+1][0] = strplaytemp;
+								
+								// score swap
+								strscoretemp = strlead[intcount][1];
+								strlead[intcount][1] = strlead[intcount+1][1];
+								strlead[intcount+1][1] = strscoretemp;
+							
+							}
+						}
+					}
+					
+					for(intcount = 0; intcount < inttotalplayers; intcount++){
+						con.println(strlead[intcount][0] + " - " + strlead[intcount][1]);
+					}
+				
+					
+					
+					leader.close();
+					
 					con.repaint();
 					con.sleep(30);
 				}
@@ -359,6 +494,8 @@ public class CPTNathan{
 			
 			}else if(strmenu.equalsIgnoreCase("A")){
 				
+				booladdtheme = true;
+				
 				// If A is selected, it will cover the menu
 				
 				// System.out.println("ITTTTTTT WOOOOORRRRKKKKKKKSSSSSSSS");
@@ -366,6 +503,31 @@ public class CPTNathan{
 				while(booladdtheme == true){
 					con.setDrawColor(Color.BLACK);
 					con.fillRect(0,0,1280,720);
+					
+					// Opens themes.txt for writing
+
+					TextOutputFile themes = new TextOutputFile("themes.txt", true);
+
+					con.setDrawColor(Color.WHITE);
+					con.drawString("Enter the name of your theme", 450, 100);
+					strthemename = con.readLine();
+
+					con.drawString("Enter how many words you want in your theme", 450, 100);
+					intwordamount = con.readInt();
+
+					themes.println(strthemename);
+
+					for(intstart = 0; intstart < intwordamount; intstart++){
+						con.println("Enter word " + (intstart + 1));
+						strwordread = con.readLine();
+						themes.println(strwordread);
+					}
+
+					themes.println("#");
+					themes.close();
+
+					booladdtheme = false;
+
 					
 					con.repaint();
 					con.sleep(30);
